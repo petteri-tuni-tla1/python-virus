@@ -24,3 +24,13 @@ Hello World only.
 Finds file in given directory (./test for development).
 Reads the source code from the current file - not used at this point.
 Infects files in given directory by adding comment.
+
+### 3.0
+
+Infects found files with the actual virus code.
+Preventing multiple infections not yet implemented.
+
+Directory for sample python code without virus for testing added.
+
+**NOTE: line feed setting may affect how well behaves (\r\n)**
+
