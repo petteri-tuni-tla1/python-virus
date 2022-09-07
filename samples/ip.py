@@ -1,10 +1,18 @@
 # --------------------------------------------------------------
-# numbers.py 
+# ip.py 
 
-import random
+import random, sys
 
 random.seed()
 
-for _ in range(7):
-    print ("Random number for IP address", random.randint(2,254))
+nr = 1
+if (len(sys.argv) > 1):
+    nr=int(sys.argv[1])
+
+for _ in range(nr):
+    ip_addr = ''
+    for _ in range(3):
+        ip_addr = ip_addr + str(random.randint(2,254)) + "."
+    ip_addr = ip_addr + str(random.randint(2,254))
+    print ("Random IP address: ", ip_addr)
 
